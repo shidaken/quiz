@@ -77,7 +77,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-weight: bold;
-      font-size: 14px;
+      font-size: 50px;
       z-index: 2;
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
@@ -288,23 +288,50 @@
     el.classList.add("show");
   }
 
-  // ===== テスト =====
-  setTimeout(() => {
-    change(0, 10, 20);
-    change(1, 50, 80);
-    change(2, 99, 100);
+scores=[0,0,0,0,0,0,0,0,0,0]
+function correct(user){
+    scores[user]+=1;
+    change(user, scores[user], 33*scores[user]);
+    if(scores[user]==3){
+        animation(user,1)
+        change(user,scores[user],100)
+        cutIn("winner:player"+String(user+1))
+    }
+    
+}
+document.addEventListener("keydown", (event) => {
+    if(event.key=="1"){
+        correct(0)
+    }
+    if(event.key=="2"){
+        correct(1)
+    }
+    if(event.key=="3"){
+        correct(2)
+    }
+    if(event.key=="4"){
+        correct(3)
+    }
+    if(event.key=="5"){
+        correct(4)
+    }
+    if(event.key=="6"){
+        correct(5)
+    }
+    if(event.key=="7"){
+        correct(6)
+    }
+    if(event.key=="8"){
+        correct(7)
+    }
+    if(event.key=="9"){
+        correct(8)
+    }
+    if(event.key=="0"){
+        correct(9)
+    }
+});
 
-    change_color(1);
-    change_color(1);
-
-    flash_color(2);
-
-    setTimeout(() => {
-      animation(2, 3);
-      cutIn("WINNER: 3");
-    }, 1000);
-
-  }, 50);
 
 </script>
 
