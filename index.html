@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Final CutIn Bars</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* ===== 上テキスト ===== */
+    #header {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #mainText {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    #subText {
+      font-size: 14px;
+      color: yellow;
+    }
+
+    /* ===== バー ===== */
+    #container {
+      margin-top: 30px;
+      display: flex;
+      width: 100vw;
+      height: 340px;
+    }
+
+    .col {
+      width: 10%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bar {
+      width: 100%;
+      height: 300px;
+      border: 1px solid white;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .inner {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 0%;
+      background: deepskyblue;
+      transition: height 0.5s ease;
+    }
+
+    .inner.red { background: red; }
+    .inner.gray { background: gray; }
+
+    /* ===== 数字 ===== */
+    .number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 14px;
+      z-index: 2;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .number.pop {
+      transform: translate(-50%, -50%) scale(1.6);
+      opacity: 0.5;
+    }
+
+    /* ===== ラベル ===== */
+    .label {
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    /* ===== 勝者アニメ ===== */
+    .winner {
+      animation: winnerFlash 0.6s infinite alternate;
+    }
+
+    @keyframes winnerFlash {
+      from { filter: brightness(1); }
+      to   { filter: brightness(2); }
+    }
+
+    .winner.lv2 {
+      animation: winnerScale 0.5s infinite alternate;
+    }
+
+    @keyframes winnerScale {
+      from { transform: scale(1); }
+      to   { transform: scale(1.1); }
+    }
+
+    .winner.lv3 {
+      animation: winnerGlow 0.4s infinite alternate;
+    }
+
+    @keyframes winnerGlow {
+      from {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      to {
+        transform: scale(1.2);
+        filter: brightness(2) drop-shadow(0 0 10px yellow);
+      }
+    }
+
+    /* ===== カットイン ===== */
+    #cutin {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      color: yellow;
+      font-size: 48px;
+      font-weight: bold;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+      text-shadow: 0 0 10px yellow, 0 0 20px orange;
+    }
+
+    #cutin.show {
+      animation: cutinAnim 3s ease forwards;
+    }
+
+    @keyframes cutinAnim {
+      0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+      }
+      30% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+      }
+      60% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div id="header">
+  <div id="mainText">メインテキスト</div>
+  <div id="subText">SUB</div>
+</div>
+
+<div id="container"></div>
+
+<!-- カットイン -->
+<div id="cutin"></div>
+
+<script>
+  const container = document.getElementById("container");
+  const bars = [];
+
+  // ===== 生成 =====
+  for (let i = 0; i < 10; i++) {
+    const col = document.createElement("div");
+    col.className = "col";
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+
+    const inner = document.createElement("div");
+    inner.className = "inner";
+
+    const number = document.createElement("div");
+    number.className = "number";
+    number.textContent = "0";
+
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = i + 1;
+
+    bar.appendChild(inner);
+    bar.appendChild(number);
+    col.appendChild(bar);
+    col.appendChild(label);
+
+    container.appendChild(col);
+
+    bars.push({ inner, number });
+  }
+
+  // ===== change =====
+  function change(index, number, height) {
+    if (index < 0 || index >= bars.length) return;
+
+    const b = bars[index];
+
+    b.inner.style.height = height + "%";
+
+    const el = b.number;
+    el.classList.remove("pop");
+    void el.offsetWidth;
+
+    el.textContent = number;
+    el.classList.add("pop");
+
+    setTimeout(() => el.classList.remove("pop"), 200);
+  }
+
+  // ===== 色トグル =====
+  function change_color(index) {
+    if (index < 0 || index >= bars.length) return;
+
+    const el = bars[index].inner;
+
+    if (el.classList.contains("red")) {
+      el.classList.remove("red");
+      el.classList.add("gray");
+    } else if (el.classList.contains("gray")) {
+      el.classList.remove("gray");
+      el.classList.add("red");
+    } else {
+      el.classList.add("red");
+    }
+  }
+
+  // ===== フラッシュ =====
+  function flash_color(index) {
+    if (index < 0 || index >= bars.length) return;
+
+    const el = bars[index].inner;
+    el.classList.add("red");
+
+    setTimeout(() => {
+      el.classList.remove("red");
+    }, 300);
+  }
+
+  // ===== 勝者アニメ =====
+  function animation(a, b) {
+    if (a < 0 || a >= bars.length) return;
+
+    bars.forEach(bar => {
+      bar.inner.classList.remove("winner", "lv2", "lv3");
+    });
+
+    const target = bars[a].inner;
+
+    target.classList.add("winner");
+
+    if (b === 2) target.classList.add("lv2");
+    if (b === 3) target.classList.add("lv3");
+  }
+
+  // ===== カットイン =====
+  function cutIn(text) {
+    const el = document.getElementById("cutin");
+
+    el.textContent = text;
+
+    el.classList.remove("show");
+    void el.offsetWidth;
+
+    el.classList.add("show");
+  }
+
+  // ===== テスト =====
+  setTimeout(() => {
+    change(0, 10, 20);
+    change(1, 50, 80);
+    change(2, 99, 100);
+
+    change_color(1);
+    change_color(1);
+
+    flash_color(2);
+
+    setTimeout(() => {
+      animation(2, 3);
+      cutIn("WINNER: 3");
+    }, 1000);
+
+  }, 50);
+
+</script>
+
+</body>
+</html>
