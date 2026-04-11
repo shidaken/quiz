@@ -24,7 +24,7 @@
     }
 
     #mainText {
-      font-size: 18px;
+      font-size: 50px;
       margin-bottom: 6px;
     }
 
@@ -95,7 +95,7 @@
 
     /* ===== 勝者アニメ ===== */
     .winner {
-      animation: winnerFlash 0.6s infinite alternate;
+      animation: winnerFlash 0.6s alternate;
     }
 
     @keyframes winnerFlash {
@@ -236,15 +236,17 @@
     if (index < 0 || index >= bars.length) return;
 
     const el = bars[index].inner;
-
     if (el.classList.contains("red")) {
       el.classList.remove("red");
       el.classList.add("gray");
+      bars[index].number.style.color="white"
+      bars[index].number.textContent="失格"
     } else if (el.classList.contains("gray")) {
       el.classList.remove("gray");
       el.classList.add("red");
     } else {
       el.classList.add("red");
+      setTimeout(bars[index].number.style.color="yellow",10);
     }
   }
 
@@ -289,6 +291,8 @@
   }
 
 scores=[0,0,0,0,0,0,0,0,0,0]
+correct_keys=["1","2","3","4","5","6","7","8","9","0"]
+wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
 function correct(user){
     scores[user]+=1;
     change(user, scores[user], 33*scores[user]);
@@ -300,37 +304,17 @@ function correct(user){
     
 }
 document.addEventListener("keydown", (event) => {
-    if(event.key=="1"){
-        correct(0)
+    if(event.key in correct_keys){
+        correct(correct_keys.indexOf(event.key))
+        }
+    if(wrong_keys.includes(event.key)){
+        change_color(wrong_keys.indexOf(event.key))
+        if(bars[wrong_keys.indexOf(event.key)].number.color=="yellow"){
+            bars[wrong_keys.indexOf(event.key)].number.textContent="失格"
+        }
     }
-    if(event.key=="2"){
-        correct(1)
-    }
-    if(event.key=="3"){
-        correct(2)
-    }
-    if(event.key=="4"){
-        correct(3)
-    }
-    if(event.key=="5"){
-        correct(4)
-    }
-    if(event.key=="6"){
-        correct(5)
-    }
-    if(event.key=="7"){
-        correct(6)
-    }
-    if(event.key=="8"){
-        correct(7)
-    }
-    if(event.key=="9"){
-        correct(8)
-    }
-    if(event.key=="0"){
-        correct(9)
-    }
-});
+    console.log(event.key);
+    });
 
 
 </script>
