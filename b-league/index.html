@@ -274,7 +274,6 @@
         } else {
           el.classList.add("red");
           bars[index].number.style.color="yellow"
-          el.parementElement.style.border="1px solid yellow"
         }
       }
 
@@ -339,7 +338,6 @@ function correct(user){
     if(scores[user]==3){
         animation(user,1)
         change(user,"勝利",100)
-        cutIn("winner:player"+String(user+1))
     }
     
 }
@@ -358,6 +356,9 @@ document.addEventListener("keydown", (event) => {
     }
     if(reset_keys.includes(event.key)){
         reset(reset_keys.indexOf(event.key))
+    }
+    if(event.key=="Enter"){
+        cutIn("GAME SET")
     }
     console.log(event.key);
     });
