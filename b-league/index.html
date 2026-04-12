@@ -74,7 +74,7 @@
         width: 100%;
         height: 340px;
         background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 1);
         position: relative;
         overflow: hidden;
         box-sizing: border-box;
@@ -270,10 +270,11 @@
           bars[index].number.style.color="white"
         } else if (el.classList.contains("gray")) {
           el.classList.remove("gray");
-          el.classList.add("red");
+          el.classList.add("deepskyblue");
         } else {
           el.classList.add("red");
           bars[index].number.style.color="yellow"
+          el.parementElement.style.border="1px solid yellow"
         }
       }
 
@@ -331,22 +332,32 @@
 scores=[0,0,0,0,0,0,0,0,0,0]
 correct_keys=["1","2","3","4","5","6","7","8","9","0"]
 wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
+reset_keys=["a","s","d","f","g","h","j","k","l",";"]
 function correct(user){
     scores[user]+=1;
     change(user, scores[user], 33*scores[user]);
     if(scores[user]==3){
         animation(user,1)
-        change(user,scores[user],100)
+        change(user,"勝利",100)
         cutIn("winner:player"+String(user+1))
     }
     
 }
+function reset(user){
+    scores[user]=0;
+    change(user,0,0)
+    bars[user].inner.classList.remove("gray");
+    bars[user].inner.classList.add("deepskyblue");
+}
 document.addEventListener("keydown", (event) => {
     if(event.key in correct_keys){
         correct(correct_keys.indexOf(event.key))
-        }
+    }
     if(wrong_keys.includes(event.key)){
         change_color(wrong_keys.indexOf(event.key))
+    }
+    if(reset_keys.includes(event.key)){
+        reset(reset_keys.indexOf(event.key))
     }
     console.log(event.key);
     });
