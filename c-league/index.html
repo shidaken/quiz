@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Final CutIn Bars</title>
+
+    <style>
+      :root {
+        --color-bg: #000000;
+        --color-main: deepskyblue;
+        --color-accent: red;
+        --color-neutral: gray;
+        --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --ease-guwan: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      body {
+        margin: 0;
+        background: var(--color-bg);
+        color: white;
+        font-family: var(--font-main);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* ===== 上テキスト ===== */
+      #header {
+        margin-top: 40px;
+        text-align: center;
+        z-index: 10;
+      }
+
+      #mainText {
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      #subText {
+        font-size: 14px;
+        font-weight: 700;
+        color: yellow;
+        letter-spacing: 0.3em;
+        text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+      }
+
+      /* ===== バー・コンテナ ===== */
+      #container {
+        margin-top: 50px;
+        display: flex;
+        width: 90vw;
+        max-width: 1200px;
+        height: 400px;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .col {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .bar {
+        width: 100%;
+        height: 340px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 1);
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      }
+
+      /* 内部の液体（inner） */
+      .inner {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 0%;
+        background: linear-gradient(to top, var(--color-main), #00e5ff);
+        box-shadow: 0 0 20px rgba(0, 191, 255, 0.4);
+        transition: height 0.8s var(--ease-guwan);
+      }
+
+      .inner.red {
+        background: linear-gradient(to top, var(--color-accent), #ff4d4d);
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+      }
+
+      .inner.gray {
+        background: linear-gradient(to top, #333, var(--color-neutral));
+        box-shadow: 0 0 10px rgba(128, 128, 128, 0.3);
+      }
+
+      /* ===== 数字 ===== */
+      .number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: 900;
+        font-size: 44px;
+        z-index: 2;
+        text-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+        transition: transform 0.2s var(--ease-guwan), opacity 0.2s ease;
+        pointer-events: none;
+      }
+
+      .number.pop {
+        transform: translate(-50%, -50%) scale(1.8);
+        color: white;
+        text-shadow: 0 0 20px white;
+      }
+
+      /* ===== ラベル ===== */
+      .label {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 0.1em;
+      }
+
+      /* ===== 勝者アニメーション ===== */
+      .winner {
+        animation: winnerFlash 0.6s infinite alternate;
+      }
+      @keyframes winnerFlash {
+        from { filter: brightness(1) drop-shadow(0 0 5px white); }
+        to   { filter: brightness(2) drop-shadow(0 0 20px yellow); }
+      }
+
+      .winner.lv2 {
+        animation: winnerScale 0.5s infinite alternate;
+      }
+      @keyframes winnerScale {
+        from { transform: scale(1); }
+        to   { transform: scale(1.05); filter: brightness(2); }
+      }
+
+      .winner.lv3 {
+        animation: winnerGlow 0.4s infinite alternate;
+      }
+      @keyframes winnerGlow {
+        from {
+          transform: scale(1);
+          filter: brightness(1.2);
+        }
+        to {
+          transform: scale(1.15);
+          filter: brightness(2.5) drop-shadow(0 0 30px yellow);
+        }
+      }
+
+      /* ===== カットイン ===== */
+      #cutin {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) skewX(-15deg) scale(0.8);
+        background: rgba(255, 255, 0, 0.95);
+        color: black;
+        padding: 20px 80px;
+        font-size: 48px;
+        font-weight: 900;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1000;
+        box-shadow: 0 0 50px rgba(255, 255, 0, 0.5);
+        border: 4px solid black;
+      }
+
+      #cutin.show {
+        animation: cutinAnim 3s var(--ease-guwan) forwards;
+      }
+
+      @keyframes cutinAnim {
+        0% { transform: translate(-50%, -50%) skewX(-15deg) scale(3); opacity: 0; }
+        15% { transform: translate(-50%, -50%) skewX(-15deg) scale(0.9); opacity: 1; }
+        20% { transform: translate(-50%, -50%) skewX(-15deg) scale(1); opacity: 1; }
+        80% { transform: translate(-50%, -50%) skewX(-15deg) scale(1.1); opacity: 1; }
+        100% { transform: translate(-50%, -50%) skewX(-15deg) scale(5); opacity: 0; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="header">
+      <div id="mainText">メインテキスト</div>
+      <div id="subText">SUB</div>
+    </div>
+
+    <div id="container"></div>
+
+    <!-- カットイン -->
+    <div id="cutin"></div>
+
+    <script>
+      const container = document.getElementById("container");
+      const bars = [];
+
+      // ===== 生成 =====
+      for (let i = 0; i < 10; i++) {
+        const col = document.createElement("div");
+        col.className = "col";
+
+        const bar = document.createElement("div");
+        bar.className = "bar";
+
+        const inner = document.createElement("div");
+        inner.className = "inner";
+
+        const number = document.createElement("div");
+        number.className = "number";
+        number.textContent = "10";
+        
+
+        const label = document.createElement("div");
+        label.className = "label";
+        label.textContent = i + 1;
+
+        bar.appendChild(inner);
+        bar.appendChild(number);
+        col.appendChild(bar);
+        col.appendChild(label);
+
+        container.appendChild(col);
+
+        bars.push({ inner, number });
+      }
+
+      // ===== change =====
+      function change(index, number, height) {
+        if (index < 0 || index >= bars.length) return;
+
+        const b = bars[index];
+
+        b.inner.style.height = height + "%";
+
+        const el = b.number;
+        el.classList.remove("pop");
+        void el.offsetWidth;
+
+        el.textContent = number;
+        el.classList.add("pop");
+
+        setTimeout(() => el.classList.remove("pop"), 200);
+      }
+
+      // ===== 色トグル =====
+      function change_color(index) {
+        if (index < 0 || index >= bars.length) return;
+
+        const el = bars[index].inner;
+
+        if (el.classList.contains("red")) {
+          el.classList.remove("red");
+          el.classList.add("gray");
+          bars[index].number.textContent="失格"
+          bars[index].number.style.color="white"
+        } else if (el.classList.contains("gray")) {
+          el.classList.remove("gray");
+          el.classList.add("deepskyblue");
+        } else {
+          el.classList.add("red");
+          bars[index].number.style.color="yellow"
+        }
+      }
+
+      // ===== フラッシュ =====
+      function flash_color(index) {
+        if (index < 0 || index >= bars.length) return;
+
+        const el = bars[index].inner;
+        el.classList.add("red");
+
+        setTimeout(() => {
+          el.classList.remove("red");
+        }, 300);
+      }
+
+      // ===== 勝者アニメ =====
+      function animation(a, b) {
+        if (a < 0 || a >= bars.length) return;
+
+        bars.forEach((bar) => {
+          bar.inner.classList.remove("winner", "lv2", "lv3");
+        });
+
+        const target = bars[a].inner;
+
+        target.classList.add("winner");
+
+        if (b === 2) target.classList.add("lv2");
+        if (b === 3) target.classList.add("lv3");
+      }
+
+      // ===== カットイン =====
+      function cutIn(text) {
+        const el = document.getElementById("cutin");
+
+        el.textContent = text;
+
+        el.classList.remove("show");
+        void el.offsetWidth;
+
+        el.classList.add("show");
+      }
+
+      let scores = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+      function correct(user) {
+        scores[user] += 1;
+        change(user, scores[user], 33 * scores[user]);
+        if (scores[user] == 3) {
+          animation(user, 1);
+          change(user, scores[user], 100);
+          cutIn("winner:player" + String(user + 1));
+        }
+      }
+
+scores=[10,10,10,10,10,10,10,10,10,10]
+correct_keys=["1","2","3","4","5","6","7","8","9","0"]
+wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
+reset_keys=["a","s","d","f","g","h","j","k","l",";"]
+setTimeout(function(){for(let i=0;i<10;i++){
+    change(i,10,100)
+}},100);
+function correct(user){
+    scores[user]+=1
+    for(let i=0;i<10;i++){
+        scores[i]-=1;
+        if(scores[i]>0 && i!==user){
+            change(i,scores[i],10*scores[i])
+        }
+        else if(scores[i]==0){
+            change(i,"失格",0)
+        }
+    }
+    
+}
+function reset(user){
+    scores[user]-=1
+    for(let i=0;i<10;i++){
+        scores[i]+=1;
+        if(scores[i]>0 && i!==user){
+            change(i,scores[i],10*scores[i])
+        }
+    }
+}
+document.addEventListener("keydown", (event) => {
+    if(event.key in correct_keys){
+        correct(correct_keys.indexOf(event.key))
+    }
+    if(wrong_keys.includes(event.key)){
+        user=wrong_keys.indexOf(event.key)
+        scores[user]-=2
+        if(scores[wrong_keys.indexOf(event.key)]>0){
+            change(user,scores[user],10*scores[user])
+        }
+        else{
+            change(user,"失格",0)
+        }
+    }
+    if(reset_keys.includes(event.key)){
+        reset(reset_keys.indexOf(event.key))
+    }
+    if(event.key=="Enter"){
+        cutIn("GAME SET")
+    }
+    console.log(event.key);
+    });
+    </script>
+  </body>
+</html>
