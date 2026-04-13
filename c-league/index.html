@@ -344,7 +344,7 @@ function correct(user){
             change(i,scores[i],10*scores[i])
         }
         else if(scores[i]==0){
-            change(i,"失格",0)
+            change(i,"KO",0)
         }
     }
     
@@ -369,7 +369,7 @@ document.addEventListener("keydown", (event) => {
             change(user,scores[user],10*scores[user])
         }
         else{
-            change(user,"失格",0)
+            change(user,"KO",0)
         }
     }
     if(reset_keys.includes(event.key)){
