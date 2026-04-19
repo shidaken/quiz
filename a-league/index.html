@@ -317,53 +317,74 @@
         el.classList.add("show");
       }
 
+      let data=[];
+      let quiz,q,a;
+      let counter=-1;
+
+      async function load() {
+        const res = await fetch("../quiz.json");
+        data = await res.json();
+        quiz=data[use];
+
+        q=document.getElementById("mainText")
+        a=document.getElementById("subText")
+      }
+
+      const use = prompt("使用問題群")
+      load();
+
       let scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-plus_scores=[0,0,0,0,0,0,0,0,0,0]
-minus_scores=[5,5,5,5,5,5,5,5,5,5]
-correct_keys=["1","2","3","4","5","6","7","8","9","0"]
-wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
-reset_keys=["a","s","d","f","g","h","j","k","l",";"]
-function correct(user){
-    plus_scores[user]+=1;
-    change(user, plus_scores[user]*minus_scores[user], Math.min(4*plus_scores[user]*minus_scores[user],100));
-    if(Math.min((4*plus_scores[user]*minus_scores[user]),100)==100){
-        animation(user,1)
-        change(user,"勝利",100)
-    }
-    
-}
-function wrong(user){
-    minus_scores[user]-=1;
-    change(user, plus_scores[user]*minus_scores[user], Math.min(4*plus_scores[user]*minus_scores[user]),100);
-    if(minus_scores[user]<=3){
-        change_color(user)
-    }
-    
-}
+      plus_scores=[0,0,0,0,0,0,0,0,0,0]
+      minus_scores=[5,5,5,5,5,5,5,5,5,5]
+      correct_keys=["1","2","3","4","5","6","7","8","9","0"]
+      wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
+      reset_keys=["a","s","d","f","g","h","j","k","l",";"]
+      function correct(user){
+          plus_scores[user]+=1;
+          change(user, plus_scores[user]*minus_scores[user], Math.min(4*plus_scores[user]*minus_scores[user],100));
+          if(Math.min((4*plus_scores[user]*minus_scores[user]),100)==100){
+              animation(user,1)
+              change(user,"勝利",100)
+          }
+          
+      }
+      function wrong(user){
+          minus_scores[user]-=1;
+          change(user, plus_scores[user]*minus_scores[user], Math.min(4*plus_scores[user]*minus_scores[user]),100);
+          if(minus_scores[user]<=3){
+              change_color(user)
+          }
+          
+      }
 
-function reset(user){
-    plus_scores[user]=0;
-    minus_scores[user]=5;
-    change(user,0,0)
-    bars[user].inner.classList.remove("gray");
-    bars[user].inner.classList.add("deepskyblue");
-}
-document.addEventListener("keydown", (event) => {
-    if(event.key in correct_keys){
-        correct(correct_keys.indexOf(event.key))
-    }
-    if(wrong_keys.includes(event.key)){
-        wrong(wrong_keys.indexOf(event.key))
-    }
-    if(reset_keys.includes(event.key)){
-        reset(reset_keys.indexOf(event.key))
-    }
-    if(event.key=="Enter"){
-        cutIn("GAME SET")
-    }
-    console.log(event.key);
-    });
+      function reset(user){
+          plus_scores[user]=0;
+          minus_scores[user]=5;
+          change(user,0,0)
+          bars[user].inner.classList.remove("gray");
+          bars[user].inner.classList.add("deepskyblue");
+      }
+      document.addEventListener("keydown", (event) => {
+          if(event.key in correct_keys){
+              correct(correct_keys.indexOf(event.key))
+          }
+          if(wrong_keys.includes(event.key)){
+              wrong(wrong_keys.indexOf(event.key))
+          }
+          if(reset_keys.includes(event.key)){
+              reset(reset_keys.indexOf(event.key))
+          }
+          if(event.key=="Enter"){
+              cutIn("GAME SET")
+          }
+          if(event.key==" "){
+            counter+=1;
+            q.textContent=quiz["q"][counter]
+            a.textContent=quiz["a"][counter]
+          }
+          console.log(event.key);
+          });
     </script>
   </body>
 </html>
