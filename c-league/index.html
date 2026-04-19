@@ -318,6 +318,23 @@
         el.classList.add("show");
       }
 
+      let data=[];
+      let quiz,q,a;
+      let counter=-1;
+
+      async function load() {
+        const res = await fetch("../quiz.json");
+        data = await res.json();
+        quiz=data[use];
+
+        q=document.getElementById("mainText")
+        a=document.getElementById("subText")
+      }
+
+      load();
+
+      const use =prompt("使用問題群");
+
       let scores = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
       function correct(user) {
         scores[user] += 1;
@@ -377,6 +394,11 @@ document.addEventListener("keydown", (event) => {
     }
     if(event.key=="Enter"){
         cutIn("GAME SET")
+    }
+    if(event.key==" "){
+      counter+=1;
+      q.textContent=quiz["q"][counter]
+      a.textContent=quiz["a"][counter]
     }
     console.log(event.key);
     });
