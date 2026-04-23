@@ -354,8 +354,8 @@ wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
 reset_keys=["a","s","d","f","g","h","j","k","l",";"]
 function correct(user){
     scores[user]+=1;
-    change(user, scores[user], 33*scores[user]);
-    if(scores[user]==3){
+    change(user, scores[user], 20*scores[user]);
+    if(scores[user]==5){
         animation(user,1)
         change(user,"勝利",100)
     }
