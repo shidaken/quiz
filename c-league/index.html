@@ -409,8 +409,8 @@ document.addEventListener("keydown", (event) => {
     }
     if(event.key==" "){
       counter+=1;
-      q.textContent=quiz["q"][counter]
-      a.textContent=quiz["a"][counter]
+      q.textContent=quiz[counter]["q"]
+      a.textContent=quiz[counter]["a"]
     }
     console.log(event.key);
     });
