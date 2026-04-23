@@ -35,7 +35,7 @@
       }
 
       #mainText {
-        font-size: 15px;
+        font-size: 24px;
         font-weight: 900;
         letter-spacing: 0.2em;
         text-transform: uppercase;
@@ -205,6 +205,8 @@
 
     <!-- カットイン -->
     <div id="cutin"></div>
+    <button id="playSound">BGM再生</button>
+    <button id="stopSound">BGM停止</button>
 
     <script>
       const container = document.getElementById("container");
@@ -328,6 +330,16 @@
         q=document.getElementById("mainText")
         a=document.getElementById("subText")
       }
+      const audio = new Audio("../b.mp3");
+      document.getElementById("playSound").addEventListener("click", () => {
+        audio.play();
+        audio.loop = true;
+      });
+
+      document.getElementById("stopSound").addEventListener("click", () => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
 
       load();
 
@@ -370,8 +382,8 @@ document.addEventListener("keydown", (event) => {
     }
     if(event.key==" "){
       counter+=1;
-      q.textContent=quiz[counter]["q"]
-      a.textContent=quiz[counter]["a"]
+      q.textContent=quiz["q"][counter]
+      a.textContent=quiz["a"][counter]
     }
     console.log(event.key);
     });
