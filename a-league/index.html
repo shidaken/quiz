@@ -349,14 +349,14 @@
       let scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
       plus_scores=[0,0,0,0,0,0,0,0,0,0]
-      minus_scores=[5,5,5,5,5,5,5,5,5,5]
+      minus_scores=[7,7,7,7,7,7,7,7,7,7]
       correct_keys=["1","2","3","4","5","6","7","8","9","0"]
       wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
       reset_keys=["a","s","d","f","g","h","j","k","l",";"]
       function correct(user){
           plus_scores[user]+=1;
-          change(user, plus_scores[user]*minus_scores[user], Math.min(4*plus_scores[user]*minus_scores[user],100));
-          if(Math.min((4*plus_scores[user]*minus_scores[user]),100)==100){
+          change(user, plus_scores[user]*minus_scores[user], Math.min(plus_scores[user]*minus_scores[user]/49*100,100));
+          if(Math.min((plus_scores[user]*minus_scores[user]/49*100),100)==100){
               animation(user,1)
               change(user,"勝利",100)
           }
