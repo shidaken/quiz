@@ -364,8 +364,8 @@
       }
       function wrong(user){
           minus_scores[user]-=1;
-          change(user, plus_scores[user]*minus_scores[user], Math.min(4*plus_scores[user]*minus_scores[user]),100);
-          if(minus_scores[user]<=3){
+          change(user, plus_scores[user]*minus_scores[user], Math.min(plus_scores[user]*minus_scores[user]/49*100),100);
+          if(minus_scores[user]<=4){
               change_color(user)
           }
           
