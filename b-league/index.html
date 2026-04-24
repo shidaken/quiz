@@ -386,7 +386,7 @@ document.addEventListener("keydown", (event) => {
     }
     if(wrong_keys.includes(event.key)){
       wrongs[wrong_keys.indexOf(event.key)]+=1;
-      if wrongs[wrong_keys.indexOf(event.key)]>=2{
+      if(wrongs[wrong_keys.indexOf(event.key)]>=2){
         change_color(wrong_keys.indexOf(event.key));
       }
     }
