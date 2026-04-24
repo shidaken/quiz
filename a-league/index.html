@@ -343,7 +343,7 @@
       }
 
       let data=[];
-      let quiz,q,a;
+      let quiz,q,a,now;
       let counter=-1;
 
       async function load() {
@@ -353,6 +353,7 @@
 
         q=document.getElementById("mainText")
         a=document.getElementById("subText")
+        now=document.getElementById("now")
       }
 
       const use = prompt("使用問題群")
@@ -407,6 +408,7 @@
             counter+=1;
             q.textContent=quiz[counter]["q"]
             a.textContent=quiz[counter]["a"]
+            now.textContent=String(now+1)+"/50";
           }
           console.log(event.key);
           });
