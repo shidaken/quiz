@@ -396,7 +396,7 @@ document.addEventListener("keydown", (event) => {
       counter+=1;
       q.textContent=quiz[counter]["q"]
       a.textContent=quiz[counter]["a"]
-      now.textContent=String(now+1)+"/30"
+      now.textContent=String(counter+1)+"/30"
     }
     console.log(event.key);
     });
