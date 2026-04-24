@@ -361,6 +361,7 @@
 
 
 scores=[0,0,0,0,0,0,0,0,0,0]
+wrongs=[0,0,0,0,0,0,0,0,0,0]
 correct_keys=["1","2","3","4","5","6","7","8","9","0"]
 wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
 reset_keys=["a","s","d","f","g","h","j","k","l",";"]
@@ -384,7 +385,10 @@ document.addEventListener("keydown", (event) => {
         correct(correct_keys.indexOf(event.key))
     }
     if(wrong_keys.includes(event.key)){
-        change_color(wrong_keys.indexOf(event.key))
+      wrongs[wrong_keys.indexOf(event.key)]+=1;
+      if wrongs[wrong_keys.indexOf(event.key)]>=2{
+        change_color(wrong_keys.indexOf(event.key));
+      }
     }
     if(reset_keys.includes(event.key)){
         reset(reset_keys.indexOf(event.key))
