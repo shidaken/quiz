@@ -374,6 +374,7 @@ function correct(user){
 }
 function reset(user){
     scores[user]=0;
+    wrongs[user]=0;
     change(user,0,0)
     bars[user].inner.classList.remove("gray");
     bars[user].inner.classList.add("deepskyblue");
