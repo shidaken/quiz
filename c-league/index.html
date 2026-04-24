@@ -371,7 +371,7 @@
         audio.currentTime = 0;
       });
 
-scores=[20,20,20,20,20,20,20,20,20,20]
+scores=[15,15,15,15,15,15,15,15,15,15]
 correct_keys=["1","2","3","4","5","6","7","8","9","0"]
 wrong_keys=["q","w","e","r","t","y","u","i","o","p"]
 reset_keys=["a","s","d","f","g","h","j","k","l",";"]
@@ -383,7 +383,7 @@ function correct(user){
     for(let i=0;i<10;i++){
         scores[i]-=1;
         if(scores[i]>0 && i!==user){
-            change(i,scores[i],5*scores[i])
+            change(i,scores[i],scores[i]/15*100)
         }
         else if(scores[i]==0){
             change(i,"KO",0)
@@ -396,7 +396,7 @@ function reset(user){
     for(let i=0;i<10;i++){
         scores[i]+=1;
         if(scores[i]>0 && i!==user){
-            change(i,scores[i],5*scores[i])
+            change(i,scores[i],scores[i]/15*100)
         }
     }
 }
@@ -408,7 +408,7 @@ document.addEventListener("keydown", (event) => {
         user=wrong_keys.indexOf(event.key)
         scores[user]-=2
         if(scores[wrong_keys.indexOf(event.key)]>0){
-            change(user,scores[user],5*scores[user])
+            change(user,scores[user],scores[user]/15*100)
         }
         else{
             change(user,"KO",0)
