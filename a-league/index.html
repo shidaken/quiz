@@ -28,6 +28,7 @@
       }
 
       /* ===== 上テキスト ===== */
+      
       #header {
         margin-top: 40px;
         text-align: center;
@@ -35,7 +36,7 @@
       }
 
       #mainText {
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 900;
         letter-spacing: 0.2em;
         text-transform: uppercase;
@@ -43,8 +44,15 @@
         text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
       }
 
+      .question{
+        border-radius:1px white solid;
+        width:80%;
+        height:100px;
+        justify-content:center;
+      }
+
       #subText {
-        font-size: 14px;
+        font-size: 20px;
         font-weight: 700;
         color: yellow;
         letter-spacing: 0.3em;
@@ -197,8 +205,10 @@
 
   <body>
     <div id="header">
-      <div id="mainText">メインテキスト</div>
-      <div id="subText">SUB</div>
+      <div class="question">
+        <div id="mainText">メインテキスト</div>
+        <div id="subText">SUB</div>
+      </div>
     </div>
 
     <div id="container"></div>
