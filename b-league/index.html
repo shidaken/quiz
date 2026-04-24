@@ -207,8 +207,9 @@
 
   <body>
     <div id="header">
-      <div id="mainText">メインテキスト</div>
-      <div id="subText">SUB</div>
+      <div id="mainText>問題</div>
+      <div id="subText">解答</div>
+      <div id="now">0/30</div>
     </div>
 
     <div id="container"></div>
@@ -329,7 +330,7 @@
         el.classList.add("show");
       }
       let data=[];
-      let quiz,q,a;
+      let quiz,q,a,now;
       let counter=-1;
 
       async function load() {
@@ -337,8 +338,9 @@
         data = await res.json();
         quiz=data[use];
 
-        q=document.getElementById("mainText")
-        a=document.getElementById("subText")
+        q=document.getElementById("mainText");
+        a=document.getElementById("subText");
+        now=document.getElementById("now");
       }
       const audio = new Audio("../b.mp3");
       document.getElementById("playSound").addEventListener("click", () => {
@@ -394,6 +396,7 @@ document.addEventListener("keydown", (event) => {
       counter+=1;
       q.textContent=quiz[counter]["q"]
       a.textContent=quiz[counter]["a"]
+      now.textContent=String(now+1)+/30
     }
     console.log(event.key);
     });
