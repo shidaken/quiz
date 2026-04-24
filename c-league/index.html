@@ -408,7 +408,7 @@ document.addEventListener("keydown", (event) => {
         user=wrong_keys.indexOf(event.key)
         scores[user]-=2
         if(scores[wrong_keys.indexOf(event.key)]>0){
-            change(user,scores[user],10*scores[user])
+            change(user,scores[user],5*scores[user])
         }
         else{
             change(user,"KO",0)
